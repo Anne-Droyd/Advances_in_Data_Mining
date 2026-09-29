@@ -132,7 +132,7 @@ def user_based_cf(user_id, movie_id, user_similarity, user_item_matrix, k=5):
     Args:
         user_id (int): target user ID
         movie_id (int): target movie ID
-        user_similarity (dict): dictonary containing user similarities, \
+        user_similarity (dict): dictionary containing user similarities, <- spelling mistake\
             obtained using the similarity_matrix function (axis=0)
         user_item_matrix (pd.DataFrame): user-item rating matrix (df)
         k (int): number of top k most similar users to consider in the \
@@ -167,7 +167,7 @@ def item_based_cf(user_id, movie_id, item_similarity, user_item_matrix, k=5):
     Args:
         user_id (int): target user ID
         movie_id (int): target movie ID
-        item_similarity (dict): dictonary containing item similarities, \
+        item_similarity (dict): dictionary containing item similarities, <- spelling mistake\
             obtained using the similarity_matrix function (axis=1)
         user_item_matrix (pd.DataFrame): user-item rating matrix (df)
         k (int): number of top k most similar users to consider in the \
@@ -177,7 +177,7 @@ def item_based_cf(user_id, movie_id, item_similarity, user_item_matrix, k=5):
         predicted_rating (float): predicted rating according to item-based
         collaborative filtering
     """
-    # TODO: retrieve the topk most similar users for the target item
+    # TODO: retrieve the top_k most similar users for the target item
 
     # TODO: implement item-based collaborative filtering according to the
     # formula discussed during the lecture (reported in the PDF attached to
