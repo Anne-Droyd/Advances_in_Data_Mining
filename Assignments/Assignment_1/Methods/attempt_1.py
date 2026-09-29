@@ -37,7 +37,7 @@ def similarity_matrix(matrix, k=5, axis=0):
                     entity (default=5)
         axis (int): 0: calculate similarity scores between users \
                         (rows of the matrix),
-                    1: claculate similarity scores between items \
+                    1: calculate similarity scores between items <- spelling mistake \
                         (columns of the matrix)
 
     Returns:
@@ -54,7 +54,7 @@ def similarity_matrix(matrix, k=5, axis=0):
     faster computation.
     """
     similarity_dict = {}
-    # TO DO: Handle the absence of ratings (missing values in the matrix)
+    # TODO: Handle the absence of ratings (missing values in the matrix)
 
     # It seems this has to be ignored for the calculation because /0 issue
     # I could set it to 0, and treat it as a vector from the origin, I don't see any nans in the data though
@@ -64,22 +64,49 @@ def similarity_matrix(matrix, k=5, axis=0):
     # ahh its being pivoted.
 
     print(f'Before there are {matrix.isnull().values.sum()} missing values.')
+    row_check = matrix.isnull().values.all(axis=0).sum()
+    col_check = matrix.isnull().values.all(axis=1).sum()
+    print(f'There are {row_check} rows that are all NaN and {col_check} columns that are all NaN.')
     # matrix = matrix.fillna(0)
     # print(f'After there are {matrix.isnull().values.sum()} missing values.')
 
     # I think I need to mask?
+    # Ahh I think its just comparing parallel vectors which makes it simpler
 
+    # is this a quadratic speed problem? I'm trying to think of a better approach
+    # I could do linear time if they're treated as 0s and not comparing masks between each row..
+    # I could make it a bit quicker if for i total rows: for j in [i:total rows]: no extra checks. lower triangle matrix
 
+    # I think I might be on the wrong approach because the TO DO here is just asking for data filtering not axis
+    # what if I impute 0 and then just softmax essentially, okay I just need to do something
 
-    # TO DO: If axis is 1, what do you need to do to calculate the similarity
+    #wait what If i just leave it nan? can't lol they propagate throught the calc
+    matrix = matrix.fillna(0)
+
+    # TODO: If axis is 1, what do you need TODO to calculate the similarity
     # between items (columns)
     if axis == 1:
+        #just flip it
+        matrix = matrix.T
         pass
 
-    # TO DO: loop through each couple of entities to calculate their cosine
+    # TODO: loop through each couple of entities to calculate their cosine
     # similarity and store these results
+    total_rows = matrix.shape[0]
+    sim_matrix = []
+    for row in range(0,total_rows):
+        vector = matrix.iloc[[row]]
+        #np.sqrt is slow... could just square everything maybe idk not bothered
+        mag_1 = np.linalg.norm(vector)
+        mag_2 = np.linalg.norm(matrix,axis=1) #doesn't matter because its preflipped
+        similarity_dict = np.dot(vector, matrix.T) / (mag_1 * mag_2)
+        sim_matrix.append(similarity_dict.flatten())
+    sim_matrix =np.array(sim_matrix)
 
-    # TO DO: sort the similarity scores for each entity and add the top k most
+
+
+
+    # TODO: sort the similarity scores for each entity and add the top k most
     # similar entities to the similarity_dict
 
     return similarity_dict
@@ -105,9 +132,9 @@ def user_based_cf(user_id, movie_id, user_similarity, user_item_matrix, k=5):
         predicted_rating (float): predicted rating according to user-based \
         collaborative filtering
     """
-    # TO DO: retrieve the topk most similar users for the target user
+    # TODO: retrieve the topk most similar users for the target user
 
-    # TO DO: implement user-based collaborative filtering according to the
+    # TODO: implement user-based collaborative filtering according to the
     # formula discussed during the lecture (reported in the PDF attached to
     # the assignment)
     numerator = 0
@@ -140,9 +167,9 @@ def item_based_cf(user_id, movie_id, item_similarity, user_item_matrix, k=5):
         predicted_rating (float): predicted rating according to item-based
         collaborative filtering
     """
-    # TO DO: retrieve the topk most similar users for the target item
+    # TODO: retrieve the topk most similar users for the target item
 
-    # TO DO: implement item-based collaborative filtering according to the
+    # TODO: implement item-based collaborative filtering according to the
     # formula discussed during the lecture (reported in the PDF attached to
     # the assignment)
     numerator = 0
