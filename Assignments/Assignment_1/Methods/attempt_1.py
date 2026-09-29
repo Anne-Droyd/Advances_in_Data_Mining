@@ -63,10 +63,10 @@ def similarity_matrix(matrix, k=5, axis=0):
     # apparently there's like 1,486,000 out of 1,586,000 so like 93% empty
     # ahh its being pivoted.
 
-    print(f'Before there are {matrix.isnull().values.sum()} missing values.')
-    row_check = matrix.isnull().values.all(axis=0).sum()
-    col_check = matrix.isnull().values.all(axis=1).sum()
-    print(f'There are {row_check} rows that are all NaN and {col_check} columns that are all NaN.')
+    # print(f'Before there are {matrix.isnull().values.sum()} missing values.')
+    # row_check = matrix.isnull().values.all(axis=0).sum()
+    # col_check = matrix.isnull().values.all(axis=1).sum()
+    # print(f'There are {row_check} rows that are all NaN and {col_check} columns that are all NaN.')
     # matrix = matrix.fillna(0)
     # print(f'After there are {matrix.isnull().values.sum()} missing values.')
 
@@ -99,12 +99,20 @@ def similarity_matrix(matrix, k=5, axis=0):
         #np.sqrt is slow... could just square everything maybe idk not bothered
         mag_1 = np.linalg.norm(vector)
         mag_2 = np.linalg.norm(matrix,axis=1) #doesn't matter because its preflipped
-        similarity_dict = np.dot(vector, matrix.T) / (mag_1 * mag_2)
-        sim_matrix.append(similarity_dict.flatten())
+        similarity_vector = np.dot(vector, matrix.T) / (mag_1 * mag_2)
+        sim_matrix.append(similarity_vector.flatten())
     sim_matrix =np.array(sim_matrix)
 
+    #no matplotlib so cant check the image lol
 
 
+    for row in range(0,total_rows):
+        sim_matrix[row,row] = np.nan
+        row_vec = sim_matrix[row,:]
+        top_k_indicies_list = sorted(range(len(row_vec)), key=lambda sub: row_vec[sub])[-k:]
+        top_k_similarity_list = [row_vec[i] for i in top_k_indicies_list]
+        similarity_dict[row] = {'top_similar_indices':top_k_indicies_list,
+                                'top_similar_values':top_k_similarity_list}
 
     # TODO: sort the similarity scores for each entity and add the top k most
     # similar entities to the similarity_dict
