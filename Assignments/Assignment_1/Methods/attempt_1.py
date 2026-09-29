@@ -109,7 +109,7 @@ def similarity_matrix(matrix, k=5, axis=0):
     for row in range(0,total_rows):
         sim_matrix[row,row] = np.nan
         row_vec = sim_matrix[row,:]
-        top_k_indicies_list = sorted(range(len(row_vec)), key=lambda sub: row_vec[sub])[-k:]
+        top_k_indicies_list = sorted(range(len(row_vec)), key=lambda sub: row_vec[sub],reverse=True)[-k:]
         top_k_similarity_list = [row_vec[i] for i in top_k_indicies_list]
         similarity_dict[row] = {'top_similar_indices':top_k_indicies_list,
                                 'top_similar_values':top_k_similarity_list}
