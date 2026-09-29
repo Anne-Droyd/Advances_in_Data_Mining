@@ -114,6 +114,8 @@ def similarity_matrix(matrix, k=5, axis=0):
         similarity_dict[row] = {'top_similar_indices':top_k_indicies_list,
                                 'top_similar_values':top_k_similarity_list}
 
+
+
     # TODO: sort the similarity scores for each entity and add the top k most
     # similar entities to the similarity_dict
 
