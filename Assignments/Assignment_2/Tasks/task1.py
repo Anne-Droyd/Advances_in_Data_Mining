@@ -1,6 +1,7 @@
 # No external libraries are allowed to be imported in this file
 import random
 
+# this is the data lol
 def mock_datastream():
     """This function is a mock datastream generator. It yields transactions one by one.
     It is used for testing the reservoir_sampling function. It is not allowed to change
