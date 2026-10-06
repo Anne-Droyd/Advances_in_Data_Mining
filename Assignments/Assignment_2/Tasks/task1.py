@@ -31,9 +31,9 @@ def reservoir_sampling(k, datastream):
         # transaction, contains the current transaction from the stream
         # Note that it is NOT allowed to store the whole datastream in memory
         # Note that the sample array size should not exceed k
-
         # BEGIN IMPLEMENTATION
 
+        h=0
         # END IMPLEMENTATION
 
     return sample

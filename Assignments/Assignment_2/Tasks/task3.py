@@ -24,7 +24,7 @@ class FlajoletMartin:
         trailing_zeros_count = 0
 
         # BEGIN IMPLEMENTATION
-
+        h=0
         # END IMPLEMENTATION
 
         return trailing_zeros_count
@@ -38,7 +38,7 @@ class FlajoletMartin:
             #       Update the maximum trailing zero value of the current hash function
 
             # BEGIN IMPLEMENTATION
-
+            h=0
             # END IMPLEMENTATION
 
 

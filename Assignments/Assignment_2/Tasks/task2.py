@@ -19,9 +19,9 @@ def create_hash_functions(num_hash_functions, size_bit_array):
     for i in range(num_hash_functions):
         # Create a lambda function that hashes the input
         # note that this should be a unique hash function for all
-
         # BEGIN IMPLEMENTATION
 
+        h=0
         # END IMPLEMENTATION
 
     return hash_functions
@@ -40,7 +40,7 @@ def add_to_bloom_filter(bloom_filter, hash_functions, bank_account):
     """
 
     # BEGIN IMPLEMENTATION
-
+    h=0
     # END IMPLEMENTATION
 
     return bloom_filter
@@ -58,7 +58,7 @@ def check_bloom_filter(bloom_filter, hash_functions, bank_account):
     """
 
     # BEGIN IMPLEMENTATION
-
+    h=0
     # END IMPLEMENTATION
 
     return True
