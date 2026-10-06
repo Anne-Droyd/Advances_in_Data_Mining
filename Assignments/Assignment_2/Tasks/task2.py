@@ -20,11 +20,13 @@ def create_hash_functions(num_hash_functions, size_bit_array):
         # Create a lambda function that hashes the input
         # note that this should be a unique hash function for all
         # BEGIN IMPLEMENTATION
+        #I have access to hash lib, so I don't have to create my own arithmetic?
+        hash_func = lambda input_str, x=i: int(sha256(f'{input_str}{str(x)}'.encode()).hexdigest(),16)%size_bit_array
+        hash_functions.append(hash_func)
 
-        h=0
         # END IMPLEMENTATION
-
     return hash_functions
+
 
 def add_to_bloom_filter(bloom_filter, hash_functions, bank_account):
     """This function should set the bits in the bloom filter to 1 for each 
@@ -40,7 +42,13 @@ def add_to_bloom_filter(bloom_filter, hash_functions, bank_account):
     """
 
     # BEGIN IMPLEMENTATION
-    h=0
+    blooms = []
+    print(bloom_filter)
+    for func in hash_functions:
+
+        blooms.append(func(bank_account))
+
+    import sys
     # END IMPLEMENTATION
 
     return bloom_filter
@@ -74,7 +82,7 @@ if __name__ == "__main__":
     # Set up the Bloom filter as an array 8 times as big as the number of bank accounts
     bloom_filter = [0] * 8*nr_bank_accounts
     # Experiment with 2 hash functions (try raising it to 30)
-    hash_functions = create_hash_functions(2, 8*nr_bank_accounts)
+    hash_functions = create_hash_functions(30, 8*nr_bank_accounts)
     # Enter all valid account numbers
     for account in real_bank_accounts:
         add_to_bloom_filter(bloom_filter, hash_functions, account)
