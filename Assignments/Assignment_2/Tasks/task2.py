@@ -62,7 +62,15 @@ def check_bloom_filter(bloom_filter, hash_functions, bank_account):
     """
 
     # BEGIN IMPLEMENTATION
-    h=0
+    check = []
+    for func in hash_functions:
+        if bloom_filter[func(bank_account)] == 1:
+            check.append(1)
+        else:
+            check.append(0)
+    check_np = np.array(check)
+    if check_np.all() != 1:
+        return False
     # END IMPLEMENTATION
 
     return True
@@ -78,12 +86,12 @@ if __name__ == "__main__":
     # Set up the Bloom filter as an array 8 times as big as the number of bank accounts
     bloom_filter = [0] * 8*nr_bank_accounts
     # Experiment with 2 hash functions (try raising it to 30)
-    hash_functions = create_hash_functions(30, 8*nr_bank_accounts)
+    hash_functions = create_hash_functions(5, 8*nr_bank_accounts)
     # Enter all valid account numbers
     for account in real_bank_accounts:
         add_to_bloom_filter(bloom_filter, hash_functions, account)
 
-    print(sum(bloom_filter) / len(bloom_filter))
+
     # Calulate the false positive rate
     fake_bank_accounts = ["fake" + str(i) for i in range(nr_bank_accounts)]
     false_positives = 0
