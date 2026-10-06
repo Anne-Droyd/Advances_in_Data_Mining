@@ -42,13 +42,9 @@ def add_to_bloom_filter(bloom_filter, hash_functions, bank_account):
     """
 
     # BEGIN IMPLEMENTATION
-    blooms = []
-    print(bloom_filter)
     for func in hash_functions:
+        bloom_filter[func(bank_account)] = 1
 
-        blooms.append(func(bank_account))
-
-    import sys
     # END IMPLEMENTATION
 
     return bloom_filter
@@ -87,6 +83,7 @@ if __name__ == "__main__":
     for account in real_bank_accounts:
         add_to_bloom_filter(bloom_filter, hash_functions, account)
 
+    print(sum(bloom_filter) / len(bloom_filter))
     # Calulate the false positive rate
     fake_bank_accounts = ["fake" + str(i) for i in range(nr_bank_accounts)]
     false_positives = 0
