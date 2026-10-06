@@ -32,8 +32,15 @@ def reservoir_sampling(k, datastream):
         # Note that it is NOT allowed to store the whole datastream in memory
         # Note that the sample array size should not exceed k
         # BEGIN IMPLEMENTATION
-
-        h=0
+        if index < k:
+            sample.append(index)
+        else:
+            acceptance_prob = k/(index+1)
+            sample_prob = random.uniform(0, 1)
+            if sample_prob <= acceptance_prob:
+                index_pop = random.randint(0, k-1)
+                sample.pop(index_pop)
+                sample.append(index)
         # END IMPLEMENTATION
 
     return sample
