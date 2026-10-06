@@ -24,7 +24,12 @@ class FlajoletMartin:
         trailing_zeros_count = 0
 
         # BEGIN IMPLEMENTATION
-        h=0
+        bin_val = bin(x)[2:]
+        bin_val_split = bin_val.split("1")[-1]
+        trailing_zeros_count = int(len(bin_val_split))
+        # did I do something dumb? is the split parsing the entire string when I could just reverse it and count back
+
+
         # END IMPLEMENTATION
 
         return trailing_zeros_count
@@ -38,7 +43,11 @@ class FlajoletMartin:
             #       Update the maximum trailing zero value of the current hash function
 
             # BEGIN IMPLEMENTATION
-            h=0
+            hash_value = self.hash_function(item, i)
+            trailing_zeros = self.count_trailing_zeros(hash_value)
+            if i > 10:
+                import sys
+                sys.exit()
             # END IMPLEMENTATION
 
 
