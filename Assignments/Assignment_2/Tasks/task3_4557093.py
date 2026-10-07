@@ -30,6 +30,7 @@ class FlajoletMartin:
         # trailing_zeros_count = int(len(bin_val_split))
         # did I do something dumb? is the split parsing the entire string when I could just reverse it and count back
         # yeah thats probably it
+        # I think because it binary you could do some bit operations which might be quicker but I just need to move on
 
         for i in range(len(bin_val)-1,0,-1):
             if bin_val[i] == "0":
@@ -55,6 +56,7 @@ class FlajoletMartin:
             trailing_zeros = self.count_trailing_zeros(hash_value)
             if trailing_zeros > self.max_trailing_zeros[i]:
                 self.max_trailing_zeros[i] = trailing_zeros
+
             # END IMPLEMENTATION
 
 
