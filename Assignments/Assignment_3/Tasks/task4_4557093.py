@@ -59,6 +59,9 @@ def plot_tsne_projection(X_tsne_2d, color):
     """
     # TO DO: Use scatter plot to visualize the 2D projection from t-SNE
     plt.scatter(X_tsne_2d[:, 0], X_tsne_2d[:, 1], c=color)
+    plt.title('t-SNE')
+    plt.xlabel('PCA 1')
+    plt.ylabel('PCA 2')
     plt.show()
 
 
@@ -70,6 +73,7 @@ def return_identified_letter():
     """
     # TO DO: If you succeed in unfolding the dataset with t-SNE, you will see a recognizable letter (between A-Z) in the plot.
     # Identify and return the letter. Example: return 'A'.
+    # I think this is right because all values are -1 which is abnormal for the data set
     return 'o'.upper()
 
 
