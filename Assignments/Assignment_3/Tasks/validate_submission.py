@@ -48,6 +48,7 @@ def get_filename():
     }
 
     # Required tasks
+
     required_tasks = ["task1", "task2", "task3", "task4", "task5"]
 
     # Check all required tasks exist
