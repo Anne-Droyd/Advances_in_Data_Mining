@@ -210,5 +210,5 @@ if __name__ == "__main__":
     
     plot_pca_results(data_pca, labels)   # Plot PCA results
 
-    print('Observation is that for the 3D projection they are three groups that are touching')
-    print('Observation is that for the 2D projection they are three distinct groups radiating out from a central point')
+    # print('Observation is that for the 3D projection they are three groups that are touching')
+    # print('Observation is that for the 2D projection they are three distinct groups radiating out from a central point')

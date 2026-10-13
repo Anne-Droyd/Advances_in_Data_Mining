@@ -121,6 +121,6 @@ if __name__ == "__main__":
 
     plot_pca_projection(X_pca, y)  # Visualize the 2D PCA projection
 
-    print('Observation is that for the 3D projection they are two distinct groups')
-    print('Observation is that for the 2D projection they are two distinct groups but at a slope')
+    # print('Observation is that for the 3D projection they are two distinct groups')
+    # print('Observation is that for the 2D projection they are two distinct groups but at a slope')
 

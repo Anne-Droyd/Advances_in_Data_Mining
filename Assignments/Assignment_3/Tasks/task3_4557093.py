@@ -139,6 +139,6 @@ if __name__ == "__main__":
     plot_xz_projection(X, color)        # Visualize the XZ projection
     plot_pca_projection(X_pca, color)   # Visualize the PCA 2D projection
 
-    print('Observation is that for the 3D projection there is a swiss roll looking object that curls inwards clockwise along one axis')
-    print('Observation is that for the 2D projection is a flat field where groups overlap but have general areas associated with their color, It looks like the XY projection')
-    print('Hey, I don\'t work here, but maybe I should')
+    # print('Observation is that for the 3D projection there is a swiss roll looking object that curls inwards clockwise along one axis')
+    # print('Observation is that for the 2D projection is a flat field where groups overlap but have general areas associated with their color, It looks like the XY projection')
+    # print('Hey, I don\'t work here, but maybe I should')

@@ -76,5 +76,5 @@ if __name__ == "__main__":
                            random_state=2024)
     plot_tsne_projection(X_tsne_2d, color)
 
-    print('Are you sure you want the maxmimum size?')
-    print('I stopped at 50k iters, but it keeps growing')
+    # print('Are you sure you want the maxmimum size?')
+    # print('I stopped at 50k iters, but it keeps growing')
