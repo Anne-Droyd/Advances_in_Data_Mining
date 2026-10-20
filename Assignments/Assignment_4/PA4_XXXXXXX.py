@@ -2,8 +2,6 @@ import pysubdisc
 import pandas
 import matplotlib.pyplot as plt
 
-#small edit
-
 # Load the Adult data
 data = pandas.read_csv('adult.txt')
 
@@ -23,7 +21,7 @@ sd = pysubdisc.singleNominalTarget(data, 'target', 'gr50K')
 print(sd.describeSearchParameters())
 
 # Do the actual run
-sd.run()
+sd.run(verbose=False)
 
 # Print the subgroups
 print(sd.asDataFrame())
@@ -37,6 +35,8 @@ sd.qualityMeasure = 'CORTANA_QUALITY'
 sd.qualityMeasureMinimum = 0.1
 
 # BEGIN IMPLEMENTATION
+#camelcase, probably because these are classes in the backend
+sd.numericStrategy = 'NUMERIC_BEST'
 
 # END IMPLEMENTATION
 
@@ -52,7 +52,11 @@ sd = pysubdisc.singleNominalTarget(data, 'target', 'gr50K')
 sd.qualityMeasure = 'CORTANA_QUALITY'
 
 # BEGIN IMPLEMENTATION
-
+# Instructions unclear if I revert back to bins
+# Sometimes we are told to keep on but others its silence
+sd.searchDepth = 2
+sd.numericStrategy = 'NUMERIC_BEST'
+sd.qualityMeasureMinimum = 0.25
 # END IMPLEMENTATION
 
 sd.run(verbose=False)
@@ -69,6 +73,10 @@ sd_no_filter.qualityMeasure = 'CORTANA_QUALITY'
 
 # BEGIN IMPLEMENTATION
 
+sd_no_filter.numericStrategy = 'NUMERIC_BEST'
+sd_no_filter.searchDepth = 2
+sd_no_filter.filterSubgroups = False
+
 # END IMPLEMENTATION
 
 sd_no_filter.run(verbose=False)
@@ -81,6 +89,10 @@ print("Subgroup count with filtering turned OFF: ", len(sd_no_filter.asDataFrame
 # Compute pattern team of size 3 from the found subgroups
 
 # BEGIN IMPLEMENTATION
+# Not sure what the command is for this so used autocomplete
+# but this seems right
+sd.getPatternTeam(3)
+sd_no_filter.getPatternTeam(3)
 
 # END IMPLEMENTATION
 
@@ -90,6 +102,12 @@ print('\n\n******* Section 5 *******\n')
 sd = pysubdisc.singleNominalTarget(data, 'target', 'gr50K')
 
 # BEGIN IMPLEMENTATION
+sd.searchDepth = 2
+sd.numericStrategy = 'NUMERIC_BEST'
+sd.filterSubgroups = True
+sd.qualityMeasure = 'RELATIVE_LIFT'
+sd.qualityMeasureMinimum = 0.0
+
 
 # END IMPLEMENTATION
 
@@ -105,6 +123,10 @@ print('\n\n******* Section 6 *******\n')
 
 # BEGIN IMPLEMENTATION
 
+sd.qualityMeasureMinimum = 3
+sd.minimumCoverage = 5
+
+
 # END IMPLEMENTATION
 
 sd.run(verbose=False)
@@ -117,7 +139,11 @@ print('\n\n******* Section 7 *******\n')
 
 # SECTION 7
 # BEGIN IMPLEMENTATION
-sd = ...
+sd = pysubdisc.singleNumericTarget(data, 'age')
+sd.qualityMeasureMinimum =0.0
+sd.minimumCoverage = 100
+sd.searchDepth = 2
+sd.numericStrategy = 'NUMERIC_BEST'
 # END IMPLEMENTATION
 
 sd.run(verbose=False)
@@ -133,6 +159,10 @@ print('\n\n******* Section 8 *******\n')
 # run 100 swap-randomised SD runs in order to determine the minimum required quality to reach a significance level alpha = 0.05
 
 # BEGIN IMPLEMENTATION
+sd.computeThreshold(setAsMinimum=True)
+# minimum quality here is different than in app, its random so it will be slightly different
+# This value is consistent so I think the same seed is used but I don't see how...
+
 
 # END IMPLEMENTATION
 
