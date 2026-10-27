@@ -78,8 +78,8 @@ def get_best_hyperparameters(n_estimators_list, min_samples_leaf_list, X, y):
     Find the best hyperparameter combination based on cross validation negative mean squared error.
 
     Parameters:
-    - n_estimators_list: list of different values ​​ <- what? for the number of trees.
-    - min_samples_leaf_list: list of different values ​​for the minimum number of leaf samples.
+    - n_estimators_list: list of different values for the number of trees.
+    - min_samples_leaf_list: list of different values for the minimum number of leaf samples.
     - X: feature matrix.
     - y: target vector.
 
