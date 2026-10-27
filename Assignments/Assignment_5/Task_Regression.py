@@ -40,6 +40,7 @@ def load_and_preprocess_data():
     y = data['cnt']
     data.drop(labels=['dteday','casual','registered','cnt','instant'],axis=1, inplace=True)
     X = data
+    # you don't have to rescale because its a forest so its invariable to it
     return X, y
 
 # Define the function for the random forest regression experiment
@@ -115,8 +116,8 @@ def get_best_hyperparameters(n_estimators_list, min_samples_leaf_list, X, y):
 
     # TO DO: After running the above function, manually input your best result here
 def manually_entered_best_params_and_mse():
-    best_params = {'n_estimators': 100, 'min_samples_leaf': 100}  # Example, to be replaced with the retrieved best parameters
-    best_mse = -99999.9999  # Example mse, to be replaced with your achieved mse
+    best_params = {'n_estimators': 1000, 'min_samples_leaf': 1}  # Example, to be replaced with the retrieved best parameters
+    best_mse = -441976.3084  # Example mse, to be replaced with your achieved mse
     return best_params, best_mse
 
 if __name__ == "__main__":
