@@ -30,12 +30,24 @@ def random_forest_experiment(n_estimators, min_samples_leaf, X, y):
     """
     # TODO: Create a RandomForestClassifier model with given parameters
     # n_estimators and min_sample_leaf as input, set random_state to 2024
-    
+
+    forest = RandomForestClassifier(n_estimators=n_estimators,
+                                    min_samples_leaf=min_samples_leaf,
+                                    # oob_score=True,
+                                    random_state=2024,
+                                    )
     # TODO: Implement 10-fold cross-validation with random_state set to 2024
     # and compute the scores based on cross-validation accuracy
+    kf = KFold(n_splits=10, random_state=2024,shuffle=True)
+
+    score = cross_val_score(forest,
+                            X,
+                            y,
+                            cv=kf,
+                            scoring='accuracy')
 
     # Return the average cross-validation accuracy
-    return scores.mean()
+    return score.mean()
 
 # Function to return the best result based on hyperparameters
 def get_best_hyperparameters(n_estimators_list, min_samples_leaf_list, X, y):
@@ -56,7 +68,29 @@ def get_best_hyperparameters(n_estimators_list, min_samples_leaf_list, X, y):
     # TODO: Iterate over all combinations of hyperparameters and calculate the 
     # cross-validation accuracy by using random_forest_experiment function, append 
     # n_estimators, min_sample_leaf and accuracy to results.
-    
+
+    #small amount of factors, quick run time, 16 runs is okay
+    n=0
+    for n_estimators in n_estimators_list:
+        for min_samples_leaf in min_samples_leaf_list:
+            score = random_forest_experiment(n_estimators=n_estimators,
+                                             min_samples_leaf=min_samples_leaf,
+                                             X=X,
+                                             y=y)
+            results.append((n_estimators, min_samples_leaf, score))
+            n+=1
+            print(f'Model {n}, with a score of {score}')
+
+
+    print(results)
+    best_score = 0
+    best_index = 0
+    for model, index in enumerate(results):
+        if model[2] > best_score:
+            best_score = model[2]
+            best_index = index
+
+    best_result = results[best_index]
     # Return the best combination of hyperparameters and the corresponding accuracy
     return best_result
 
@@ -73,7 +107,7 @@ if __name__ == "__main__":
     n_estimators_list = [10, 50, 100, 1000]
     min_samples_leaf_list = [1, 10, 50, 100]
 
-    best_params = get_best_hyperparameters(n_estimators_list, min_samples_leaf_list, X, y)
+    best_params = get_best_hyperparameters(n_estimators_list, min_samples_leaf_list, X, y.values.ravel())
 
     print(f"Best Hyperparameters: n_estimators = {best_params['n_estimators']}, min_samples_leaf = {best_params['min_samples_leaf']}")
     print(f"Best Accuracy: {best_params['accuracy']:.4f}")
