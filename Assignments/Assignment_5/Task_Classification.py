@@ -98,8 +98,8 @@ def get_best_hyperparameters(n_estimators_list, min_samples_leaf_list, X, y):
 
     # TO DO: After running the above function, manually input your best result here
 def manually_entered_best_params_and_accuracy():
-    best_params = {'n_estimators': 500, 'min_samples_leaf': 500}  # Example, to be replaced with the retrieved best parameters
-    best_accuracy = 0.9999  # Example accuracy, to be replaced with your achieved accuracy
+    best_params = {'n_estimators': 1000, 'min_samples_leaf': 1}  # Example, to be replaced with the retrieved best parameters
+    best_accuracy = 0.7096  # Example accuracy, to be replaced with your achieved accuracy
     return best_params, best_accuracy
     
 # Main function
