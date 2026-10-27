@@ -14,17 +14,32 @@ def load_and_preprocess_data():
     """
     data_url = "https://archive.ics.uci.edu/ml/machine-learning-databases/00275/Bike-Sharing-Dataset.zip"
 
+
+
     # TODO: Extract the 'day.csv' file from the zip archive and load it into the data DataFrame.
-    
+    bike_sharing = requests.get(data_url).content
+    zip_ref = zipfile.ZipFile(io.BytesIO(bike_sharing))
+    day_data_raw = zip_ref.read("day.csv")
+    data = pd.read_csv(io.BytesIO(day_data_raw))
+
     # TODO: Convert the 'dteday' column from a string to a datetime format and extract 
     # and create a 'day_of_month' column from it, 
     # which contains only the "day" information for each date
+
+    #Like the date? or the name of the day? which contains the name of the day or date?
+
+
+    data['day'] = pd.to_datetime(data['dteday'])
+    data['day'] = data['day'].dt.day
+
 
     # TODO: Remove the original date column and other irrelevant columns ('dteday', 'casual', 'registered', 'cnt').
     # 'dteday' column contains date information and has been specially handled above.
     # 'casual' and 'registered' column would introduce a bias and lead to overfitting
     # 'cnt' column already contains the target information
-
+    y = data['cnt']
+    data.drop(labels=['dteday','casual','registered','cnt','instant'],axis=1, inplace=True)
+    X = data
     return X, y
 
 # Define the function for the random forest regression experiment
@@ -42,14 +57,18 @@ def random_forest_regression_experiment(n_estimators, min_samples_leaf, X, y):
     - The average negative mean squared error of the cross-validation.
     """
 
-    # TO DO: Create a RandomForestRegressor model with given parameters
+    # TODO: Create a RandomForestRegressor model with given parameters
     # n_estimators and min_sample_leaf as input, set random_state to 42
-    
+    forest = RandomForestRegressor(n_estimators=n_estimators,
+                                   min_samples_leaf=min_samples_leaf,
+                                   random_state=42)
 
-    # TO DO: Implement 10-fold cross-validation with random_state set to 42
+    # TODO: Implement 10-fold cross-validation with random_state set to 42
     # and compute the mean negative mean squared error using cross-validation
-
+    kf = KFold(n_splits=10, shuffle=True, random_state=42)
+    scores = cross_val_score(forest, X, y, cv=kf,scoring='neg_mean_squared_error')
     # Return the computed mean negative mean squared error.
+    mse = scores.mean()
     return mse
 
 # Function to find the best hyperparameter combination
@@ -58,7 +77,7 @@ def get_best_hyperparameters(n_estimators_list, min_samples_leaf_list, X, y):
     Find the best hyperparameter combination based on cross validation negative mean squared error.
 
     Parameters:
-    - n_estimators_list: list of different values ​​for the number of trees.
+    - n_estimators_list: list of different values ​​ <- what? for the number of trees.
     - min_samples_leaf_list: list of different values ​​for the minimum number of leaf samples.
     - X: feature matrix.
     - y: target vector.
@@ -67,14 +86,30 @@ def get_best_hyperparameters(n_estimators_list, min_samples_leaf_list, X, y):
     - The best hyperparameter combination and the corresponding negative mean squared error.
     """
     results = []
+    n=0
 
     # TODO: Iterate over all combinations of hyperparameters, calculate the cross-validation negative mean squared error 
     # using the random_forest_regression_experiment function for each combination, and append the results (n_estimators, 
     # min_samples_leaf, and mse) to the results list.
-    
+    for n_estimators in n_estimators_list:
+        for min_samples_leaf in min_samples_leaf_list:
+            score = random_forest_regression_experiment(n_estimators, min_samples_leaf, X, y)
+            n+=1
+            print(f'Model {n}, score {score:.4f}')
+            results.append((n_estimators, min_samples_leaf, score))
     # TODO: Select the result with the smallest negative mean squared error (closest to zero)
     # from the results list as the best result.
 
+    best_score = -9999999999
+    best_index = 0
+    for index, model in enumerate(results):
+        if model[2] > best_score:
+            best_score = model[2]
+            best_index = index
+
+    best_result = {'n_estimators': results[best_index][0],
+                   'min_samples_leaf': results[best_index][1],
+                   'mse': results[best_index][2]}
     # Return the best combination of hyperparameters and their corresponding smallest negative mean squared error
     return best_result # best_result is a dictionary
 
@@ -88,6 +123,11 @@ if __name__ == "__main__":
     # Experiment with different values for n_estimators and min_samples_leaf
     # to find the best parameters setting among the following options:
     X, y = load_and_preprocess_data()
+    # print(y.describe())
+    # print(X.describe())
+    # import sys
+    # sys.exit(1)
+
     n_estimators_list = [10, 50, 100, 1000] # Do not modify these parameter settings, experiment with them
     min_samples_leaf_list = [1, 10, 50, 100] # Do not modify these parameter settings, experiment with them
 

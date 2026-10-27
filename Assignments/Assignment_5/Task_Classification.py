@@ -1,5 +1,6 @@
 # Import necessary libraries
 import pandas as pd
+from pandas.core import window
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import cross_val_score, KFold
 from ucimlrepo import fetch_ucirepo 
@@ -8,7 +9,7 @@ from ucimlrepo import fetch_ucirepo
 # This dataset contains features related to wine properties and the labels 
 # related to the different wine qualities. Our goal is to predict the correct
 # wine quality just looking at the features and not at the labels. 
-wine_quality = fetch_ucirepo(id=186) 
+wine_quality = fetch_ucirepo(id=186)
   
 X = wine_quality.data.features 
 y = wine_quality.data.targets 
@@ -43,8 +44,7 @@ def random_forest_experiment(n_estimators, min_samples_leaf, X, y):
     score = cross_val_score(forest,
                             X,
                             y,
-                            cv=kf,
-                            scoring='accuracy')
+                            cv=kf)
 
     # Return the average cross-validation accuracy
     return score.mean()
