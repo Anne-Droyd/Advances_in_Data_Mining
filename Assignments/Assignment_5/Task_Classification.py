@@ -90,7 +90,9 @@ def get_best_hyperparameters(n_estimators_list, min_samples_leaf_list, X, y):
             best_score = model[2]
             best_index = index
 
-    best_result = results[best_index]
+    best_result = {'n_estimators': results[best_index][0],
+                   'min_samples_leaf': results[best_index][1],
+                   'accuracy': results[best_index][2]}
     # Return the best combination of hyperparameters and the corresponding accuracy
     return best_result
 
@@ -104,7 +106,7 @@ def manually_entered_best_params_and_accuracy():
 if __name__ == "__main__":
     # Experiment with different values for n_estimators and min_samples_leaf
     # to find the best parameters setting among the following options:
-    n_estimators_list = [10, 50, 10, 10]
+    n_estimators_list = [10, 50, 100, 1000]
     min_samples_leaf_list = [1, 10, 50, 100]
 
     best_params = get_best_hyperparameters(n_estimators_list, min_samples_leaf_list, X, y.values.ravel())
